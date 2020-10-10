@@ -19,12 +19,12 @@ public class Parser {
 
     public Command getNextCommand() {
         var input = scanner.nextLine().trim();
+        if ("exit".equals(input)) {
+            System.exit(0);
+        }
 
         var tokens = input.split("\\s+");
         var command = tokens[0];
-        if ("exit".equals(command)) {
-            return new ExitCommand();
-        }
 
         var id = Integer.parseInt(tokens[1]);
         var content = getRecordContent(tokens);
