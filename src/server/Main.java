@@ -1,6 +1,7 @@
 package server;
 
-import server.input.Parser;
+
+import java.util.Scanner;
 
 public class Main {
 
