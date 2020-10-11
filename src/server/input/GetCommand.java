@@ -11,10 +11,14 @@ public class GetCommand implements Command {
     }
 
     @Override
-    public void execute(ApplicationContext context) {
+    public Status execute(ApplicationContext context) {
         var dataProvider = context.getDataProvider();
-        var record = dataProvider.get(id);
-        System.out.println(record.getContent());
+        try {
+            var record = dataProvider.get(id);
+            return new Status(StatusType.OK, record.getContent());
+        } catch (Exception e) {
+            return new Status(StatusType.ERROR);
+        }
     }
 
     @Override

@@ -7,7 +7,7 @@ import java.util.Optional;
 
 public interface Command {
 
-    void execute(ApplicationContext context) throws Exception;
+    Status execute(ApplicationContext context);
 
 }
 

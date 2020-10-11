@@ -15,10 +15,15 @@ public class SetCommand implements Command {
     }
 
     @Override
-    public void execute(ApplicationContext context) {
+    public Status execute(ApplicationContext context) {
         var dataProvider = context.getDataProvider();
-        dataProvider.save(record, id);
-        System.out.println("OK");
+        try {
+            dataProvider.save(record, id);
+            return new Status(StatusType.OK);
+        } catch (Exception e) {
+            return new Status(StatusType.ERROR);
+        }
+
     }
 
     @Override

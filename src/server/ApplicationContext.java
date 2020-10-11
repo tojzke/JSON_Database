@@ -6,13 +6,8 @@ import server.storage.InMemoryDataProvider;
 
 public class ApplicationContext {
 
-    private Parser parser = new Parser(System.in);
-    private DataProvider dataProvider = new InMemoryDataProvider(100);
+    private DataProvider dataProvider = new InMemoryDataProvider(1000);
 
-
-    public Parser getParser() {
-        return parser;
-    }
 
     public DataProvider getDataProvider() {
         return dataProvider;

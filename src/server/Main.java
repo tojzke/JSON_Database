@@ -1,6 +1,10 @@
 package server;
 
 
+import server.input.Parser;
+import server.input.Status;
+import server.input.StatusType;
+
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -13,23 +17,41 @@ public class Main {
     private static final int PORT = 23456;
 
     public static void main(String[] args) {
+        ApplicationContext context = new ApplicationContext();
+        new Main().startServer(context);
+    }
+
+    private void startServer(ApplicationContext context) {
         try (ServerSocket server = new ServerSocket(PORT)) {
             System.out.println("Server started!");
-                try (
-                        Socket socket = server.accept(); // accepting a new client
-                        DataInputStream input = new DataInputStream(socket.getInputStream());
-                        DataOutputStream output = new DataOutputStream(socket.getOutputStream())
+            while (true) {
+                try (Socket socket = server.accept(); // accepting a new client
+                     DataInputStream input = new DataInputStream(socket.getInputStream());
+                     DataOutputStream output = new DataOutputStream(socket.getOutputStream())
                 ) {
-                    String msg = input.readUTF(); // reading a message
-                    System.out.println("Received: " + msg);
+                    var status = processRequest(context, input, output);
 
-                    String processedMessage = "A record # N was sent!";
-                    output.writeUTF(processedMessage); // resend it to the client
-                    System.out.println("Sent: " + processedMessage);
+                    if (status.getType() == StatusType.EXIT) {
+                        break;
+                    }
                 }
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private Status processRequest(ApplicationContext context, DataInputStream input, DataOutputStream output) throws IOException {
+        String msg = input.readUTF(); // reading a message
+        System.out.println("Received: " + msg);
+
+        var parser = new Parser(msg);
+        var command = parser.getNextCommand();
+
+        var status = command.execute(context);
+        output.writeUTF(status.getMessage());
+        System.out.println("Server sent: " + status.getMessage());
+        return status;
     }
 }
 
@@ -47,7 +69,7 @@ class Session extends Thread {
             String msg = input.readUTF();
             System.out.println("Received: " + msg);
 
-            var processedMessage = processMessage(msg);
+            var processedMessage = "Sent koko";
             output.writeUTF(processedMessage);
             System.out.println("Sent: " + processedMessage);
 
@@ -57,8 +79,4 @@ class Session extends Thread {
         }
     }
 
-    public String processMessage(String message) {
-        var id = message.split("#")[1].trim();
-        return "A record # " + id + " was sent!";
-    }
 }

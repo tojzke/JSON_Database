@@ -11,10 +11,14 @@ public class DeleteCommand implements Command {
     }
 
     @Override
-    public void execute(ApplicationContext context) {
+    public Status execute(ApplicationContext context) {
         var dataProvider = context.getDataProvider();
-        dataProvider.delete(id);
-        System.out.println("OK");
+        try {
+            dataProvider.delete(id);
+            return new Status(StatusType.OK);
+        } catch (Exception e) {
+            return new Status(StatusType.ERROR);
+        }
     }
 
     @Override

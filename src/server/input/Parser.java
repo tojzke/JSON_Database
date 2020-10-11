@@ -17,6 +17,10 @@ public class Parser {
         scanner = new Scanner(inputStream);
     }
 
+    public Parser(String str) {
+        scanner = new Scanner(str);
+    }
+
     public Command getNextCommand() {
         var input = scanner.nextLine().trim();
         if ("exit".equals(input)) {

@@ -4,7 +4,7 @@ import server.ApplicationContext;
 
 public class ExitCommand implements Command {
     @Override
-    public void execute(ApplicationContext context) {
-        context.shutdown();
+    public Status execute(ApplicationContext context) {
+        return new Status(StatusType.EXIT);
     }
 }
