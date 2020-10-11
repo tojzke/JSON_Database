@@ -1,16 +1,16 @@
 package server;
 
 
-import server.input.Parser;
-import server.input.Status;
+import server.input.ConsoleParser;
+import server.input.JsonParser;
 import server.input.StatusType;
+import server.network.Response;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.Scanner;
 
 public class Main {
 
@@ -31,7 +31,7 @@ public class Main {
                 ) {
                     var status = processRequest(context, input, output);
 
-                    if (status.getType() == StatusType.EXIT) {
+                    if (status.getResponse() == StatusType.EXIT) {
                         break;
                     }
                 }
@@ -41,17 +41,18 @@ public class Main {
         }
     }
 
-    private Status processRequest(ApplicationContext context, DataInputStream input, DataOutputStream output) throws IOException {
+    private Response processRequest(ApplicationContext context, DataInputStream input, DataOutputStream output) throws IOException {
         String msg = input.readUTF(); // reading a message
         System.out.println("Received: " + msg);
 
-        var parser = new Parser(msg);
+        var parser = new JsonParser(msg);
         var command = parser.getNextCommand();
 
-        var status = command.execute(context);
-        output.writeUTF(status.getMessage());
-        System.out.println("Server sent: " + status.getMessage());
-        return status;
+        var response = command.execute(context);
+        var responseMsg = response.toJson();
+        output.writeUTF(responseMsg);
+        System.out.println("Server sent: " + responseMsg);
+        return response;
     }
 }
 

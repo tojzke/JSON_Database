@@ -1,13 +1,12 @@
 package server;
 
-import server.input.Parser;
 import server.storage.DataProvider;
-import server.storage.InMemoryDataProvider;
+import server.storage.InMemoryArrayDataProvider;
+import server.storage.InMemoryMapDataProvider;
 
 public class ApplicationContext {
 
-    private DataProvider dataProvider = new InMemoryDataProvider(1000);
-
+    private DataProvider dataProvider = new InMemoryMapDataProvider(100);
 
     public DataProvider getDataProvider() {
         return dataProvider;

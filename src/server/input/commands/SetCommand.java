@@ -1,27 +1,29 @@
-package server.input;
+package server.input.commands;
 
 import server.ApplicationContext;
+import server.network.Response;
+import server.input.StatusType;
 import server.model.Record;
 
 public class SetCommand implements Command {
 
     // Args
     private Record record;
-    private int id;
+    private String key;
 
-    public SetCommand(Record record, int id) {
+    public SetCommand(String key, Record record) {
         this.record = record;
-        this.id = id;
+        this.key = key;
     }
 
     @Override
-    public Status execute(ApplicationContext context) {
+    public Response execute(ApplicationContext context) {
         var dataProvider = context.getDataProvider();
         try {
-            dataProvider.save(record, id);
-            return new Status(StatusType.OK);
+            dataProvider.save(key, record);
+            return new Response(StatusType.OK);
         } catch (Exception e) {
-            return new Status(StatusType.ERROR);
+            return new Response(StatusType.ERROR);
         }
 
     }
@@ -30,7 +32,7 @@ public class SetCommand implements Command {
     public String toString() {
         return "SetCommand{" +
                 "record=" + record +
-                ", id=" + id +
+                ", id=" + key +
                 '}';
     }
 }

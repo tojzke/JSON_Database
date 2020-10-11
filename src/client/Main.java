@@ -1,5 +1,6 @@
 package client;
 
+import client.nerwork.Request;
 import com.beust.jcommander.JCommander;
 
 import java.io.DataInputStream;
@@ -7,7 +8,6 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.Socket;
-import java.util.Scanner;
 
 public class Main {
 
@@ -22,10 +22,10 @@ public class Main {
                 .build()
                 .parse(args);
 
-        new Main().sendRequest(request.toString());
+        new Main().sendRequest(request);
     }
 
-    void sendRequest(String msg) {
+    void sendRequest(Request request) {
 
         try (
                 Socket socket = new Socket(InetAddress.getByName(address), port);
@@ -33,6 +33,7 @@ public class Main {
                 DataOutputStream output = new DataOutputStream(socket.getOutputStream())
         ) {
             System.out.println("Client started!");
+            var msg = request.toJson();
             output.writeUTF(msg); // sending message to the server
             System.out.println("Sent: " + msg);
 
