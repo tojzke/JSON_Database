@@ -10,14 +10,21 @@ public class RequestTest {
     public void testCreateJson() {
         String[] args = {"-t", "get", "-k", "key"};
 
-        Request request = new Request();
+        Args request = new Args();
         JCommander.newBuilder()
                 .addObject(request)
                 .build()
                 .parse(args);
 
         System.out.println(request);
+    }
 
+    @Test
+    public void testRequestFromFile() {
+        String[] args = {"-in", "test.txt"};
+
+        var commander = new JCommander();
+        commander.parse(args);
     }
 
 }

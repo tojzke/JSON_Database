@@ -5,16 +5,17 @@ import com.google.gson.Gson;
 
 public class Request {
 
-    @Parameter(names = "-t",
-            description = "Type of request")
     private String type;
 
-    @Parameter(names = "-k", description = "Key for storing in database")
     private String key;
 
-    @Parameter(names = "-v", description = "Value for storing in database")
     private String value;
 
+    public Request(String type, String key, String value) {
+        this.type = type;
+        this.key = key;
+        this.value = value;
+    }
 
     public String toJson() {
         Gson gson = new Gson();

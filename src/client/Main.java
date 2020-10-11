@@ -2,12 +2,13 @@ package client;
 
 import client.nerwork.Request;
 import com.beust.jcommander.JCommander;
+import com.google.gson.Gson;
+import com.google.gson.stream.JsonReader;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.net.InetAddress;
 import java.net.Socket;
+import java.nio.file.Paths;
 
 public class Main {
 
@@ -15,14 +16,31 @@ public class Main {
     private static int port = 23456;
 
 
-    public static void main(String[] args) {
-        Request request = new Request();
-        JCommander.newBuilder()
-                .addObject(request)
-                .build()
-                .parse(args);
+    public static void main(String[] args) throws Exception {
+        var client = new Main();
+        var request = createRequest(args);
+        client.sendRequest(request);
+    }
 
-        new Main().sendRequest(request);
+    static Request createRequest(String[] consoleArgs) throws FileNotFoundException {
+        Args args = new Args();
+        JCommander.newBuilder()
+                .addObject(args)
+                .build()
+                .parse(consoleArgs);
+
+        if (args.getFilename() != null) {
+            return requestFromFile(args.getFileroot(), args.getFilename());
+        } else {
+            return new Request(args.getType(), args.getKey(), args.getValue());
+        }
+    }
+
+    private static Request requestFromFile(String fileroot, String filename) throws FileNotFoundException {
+        var gson = new Gson();
+        var file = Paths.get(fileroot, filename).toFile();
+        var jsonReader = new JsonReader(new FileReader(file));
+        return gson.fromJson(jsonReader, Request.class);
     }
 
     void sendRequest(Request request) {
