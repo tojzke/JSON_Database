@@ -22,7 +22,6 @@ public class ResponseTest {
         var acutalSetResponse = new Gson().toJson(setResponse);
         assertEquals(expectedSetResponse, acutalSetResponse);
 
-
     }
 
 }

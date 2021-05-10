@@ -3,10 +3,16 @@ package server;
 import server.storage.DataProvider;
 import server.storage.InMemoryArrayDataProvider;
 import server.storage.InMemoryMapDataProvider;
+import server.storage.JsonFileDataProvider;
+
+import java.io.IOException;
 
 public class ApplicationContext {
 
-    private DataProvider dataProvider = new InMemoryMapDataProvider(100);
+    private DataProvider dataProvider = new JsonFileDataProvider();
+
+    public ApplicationContext() throws IOException {
+    }
 
     public DataProvider getDataProvider() {
         return dataProvider;

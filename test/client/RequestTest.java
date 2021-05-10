@@ -1,6 +1,6 @@
 package client;
 
-import client.nerwork.Request;
+import client.network.Request;
 import com.beust.jcommander.JCommander;
 import org.junit.Test;
 
@@ -8,23 +8,18 @@ public class RequestTest {
 
     @Test
     public void testCreateJson() {
-        String[] args = {"-t", "get", "-k", "key"};
+        Args args = new Args();
+        String[] consoleArgs = {"-t", "get", "-k", "key"};
 
-        Args request = new Args();
+
         JCommander.newBuilder()
-                .addObject(request)
+                .addObject(args)
                 .build()
-                .parse(args);
+                .parse(consoleArgs);
 
+        Request request = new Request(args.getType(), args.getKey(), args.getValue());
         System.out.println(request);
-    }
 
-    @Test
-    public void testRequestFromFile() {
-        String[] args = {"-in", "test.txt"};
-
-        var commander = new JCommander();
-        commander.parse(args);
     }
 
 }

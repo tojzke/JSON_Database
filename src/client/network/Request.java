@@ -1,14 +1,11 @@
-package client.nerwork;
+package client.network;
 
-import com.beust.jcommander.Parameter;
 import com.google.gson.Gson;
 
 public class Request {
 
     private String type;
-
     private String key;
-
     private String value;
 
     public Request(String type, String key, String value) {

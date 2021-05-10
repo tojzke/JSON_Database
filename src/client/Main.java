@@ -1,6 +1,6 @@
 package client;
 
-import client.nerwork.Request;
+import client.network.Request;
 import com.beust.jcommander.JCommander;
 import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
@@ -13,7 +13,7 @@ import java.nio.file.Paths;
 public class Main {
 
     private static final String address = "127.0.0.1";
-    private static int port = 23456;
+    private static final int PORT = 23456;
 
 
     public static void main(String[] args) throws Exception {
@@ -46,7 +46,7 @@ public class Main {
     void sendRequest(Request request) {
 
         try (
-                Socket socket = new Socket(InetAddress.getByName(address), port);
+                Socket socket = new Socket(InetAddress.getByName(address), PORT);
                 DataInputStream input = new DataInputStream(socket.getInputStream());
                 DataOutputStream output = new DataOutputStream(socket.getOutputStream())
         ) {

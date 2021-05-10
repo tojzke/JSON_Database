@@ -1,6 +1,6 @@
 package server.input;
 
-import client.nerwork.Request;
+import client.network.Request;
 import com.google.gson.Gson;
 import server.input.commands.*;
 import server.model.Record;

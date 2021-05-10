@@ -19,6 +19,7 @@ public class GetCommand implements Command {
             var record = dataProvider.get(key);
             return new Response(StatusType.OK, record.getContent());
         } catch (Exception e) {
+            e.printStackTrace(System.err);
             return new Response(StatusType.ERROR, NO_SUCH_KEY_MSG);
         }
     }

@@ -30,7 +30,7 @@ public class Response {
         return value;
     }
 
-    public StatusType getResponse() {
+    public StatusType getStatus() {
         return response;
     }
 
