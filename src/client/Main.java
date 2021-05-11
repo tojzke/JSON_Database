@@ -14,7 +14,16 @@ public class Main {
 
     private static final String address = "127.0.0.1";
     private static final int PORT = 23456;
+//    private static final String CLIENT_DATA_PATH = System.getProperty("user.dir") + "JSON Database/task/src/client/data/";
+    private static final String CLIENT_DATA_PATH = System.getProperty("user.dir") + File.separator +
+        "src" + File.separator +
+        "client" + File.separator +
+        "data";;
 
+    public Main() throws IOException {
+        File file = new File(CLIENT_DATA_PATH);
+        file.mkdirs();
+    }
 
     public static void main(String[] args) throws Exception {
         var client = new Main();

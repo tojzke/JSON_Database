@@ -10,7 +10,7 @@ public class Args {
 
     @Parameter(names = "-fileroot",
             description = "Root of searching files")
-    private String fileroot = "/client/data";
+    private String fileroot = "src/client/data";
 
     @Parameter(names = "-t",
             description = "Type of request")
