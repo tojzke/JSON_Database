@@ -9,7 +9,7 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 
-public class Session extends Thread {
+public class Session implements Runnable {
 
     private final Socket socket;
     private final ApplicationContext context;
@@ -24,10 +24,10 @@ public class Session extends Thread {
              DataOutputStream output = new DataOutputStream(socket.getOutputStream())
         ) {
                 var response = processRequest(context, input, output);
+                socket.close();
                 if (response.getStatus() == StatusType.EXIT) {
                     context.shutdown();
                 }
-                socket.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
