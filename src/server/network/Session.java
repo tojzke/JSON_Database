@@ -27,6 +27,7 @@ public class Session extends Thread {
                 if (response.getStatus() == StatusType.EXIT) {
                     context.shutdown();
                 }
+                socket.close();
         } catch (IOException e) {
             e.printStackTrace();
         }

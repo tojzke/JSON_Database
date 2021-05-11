@@ -23,6 +23,7 @@ public class ApplicationContext {
     }
 
     public void shutdown() {
+        System.out.println("Server shutdown!");
         System.exit(0);
     }
 }

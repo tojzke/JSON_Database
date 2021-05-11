@@ -14,11 +14,7 @@ public class Main {
 
     private static final String address = "127.0.0.1";
     private static final int PORT = 23456;
-//    private static final String CLIENT_DATA_PATH = System.getProperty("user.dir") + "JSON Database/task/src/client/data/";
-    private static final String CLIENT_DATA_PATH = System.getProperty("user.dir") + File.separator +
-        "src" + File.separator +
-        "client" + File.separator +
-        "data";;
+    private static final String CLIENT_DATA_PATH = System.getProperty("user.dir") + "/JSON Database/task/src/client/data";
 
     public Main() throws IOException {
         File file = new File(CLIENT_DATA_PATH);
@@ -39,15 +35,15 @@ public class Main {
                 .parse(consoleArgs);
 
         if (args.getFilename() != null) {
-            return requestFromFile(args.getFileroot(), args.getFilename());
+            return requestFromFile(args.getFilename());
         } else {
             return new Request(args.getType(), args.getKey(), args.getValue());
         }
     }
 
-    private static Request requestFromFile(String fileroot, String filename) throws FileNotFoundException {
+    private static Request requestFromFile(String filename) throws FileNotFoundException {
         var gson = new Gson();
-        var file = Paths.get(fileroot, filename).toFile();
+        var file = Paths.get(CLIENT_DATA_PATH, filename).toFile();
         var jsonReader = new JsonReader(new FileReader(file));
         return gson.fromJson(jsonReader, Request.class);
     }

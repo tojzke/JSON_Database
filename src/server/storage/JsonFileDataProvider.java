@@ -15,7 +15,7 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 public class JsonFileDataProvider implements DataProvider {
 
-    private static final String DEFAULT_DB_FILEPATH = "./src/server/data/db.json";
+    private static final String DEFAULT_DB_FILEPATH = System.getProperty("user.dir") + "/JSON Database/task/src/server/data/db.json";
 
     private final ReadWriteLock rwl = new ReentrantReadWriteLock();
     private final Lock readLock = rwl.readLock();
